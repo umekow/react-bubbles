@@ -23,7 +23,7 @@ class Login extends React.Component {
 
   onSubmit = e => {
     e.preventDefault(); 
-    axiosWithAuth
+    axiosWithAuth()
     .post("/api/login",this.state.credentials)
     .then(
       r=> {
@@ -32,6 +32,7 @@ class Login extends React.Component {
         this.props.history.push('/protected'); 
       }
     )
+    .catch(error => console.log(error))
   }
   render() {
     
