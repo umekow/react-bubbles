@@ -30,11 +30,12 @@ const ColorList = ({ colors, updateColors }) => {
     .then(r => {
       console.log(r.data)
       updateColors(colors.map(i => (i.id === colorToEdit.id) ? i = colorToEdit : i = i))
-      setColorToEdit(initialColor)
+      
      
      
     })
     .catch(error => console.log(error))
+    setColorToEdit(initialColor)
   };
 
   const deleteColor = () => {
