@@ -11,7 +11,7 @@ const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-  const [newColor, setNewColor] = useState({color: '', code: {hex: ''}}); 
+  const [newColor, setNewColor] = useState({color: '', id: `${Date.now}_${Math.random}`, code: {hex: ''}}); 
 
 
   const editColor = color => {
@@ -30,6 +30,7 @@ const ColorList = ({ colors, updateColors }) => {
     .then(r => {
       console.log(r.data)
       updateColors(colors.map(i => (i.id === colorToEdit.id) ? i = colorToEdit : i = i))
+      setColorToEdit(initialColor)
      
      
     })
@@ -47,8 +48,9 @@ const ColorList = ({ colors, updateColors }) => {
     .catch(error => console.log(error))
   };
 
-  const addColor = () => {
-    
+  const addColor = (e) => {
+    e.preventDefault()
+    console.log(newColor)
     axiosWithAuth()
     .post(`/api/colors`, newColor)
     .then( r => {
