@@ -11,6 +11,7 @@ const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  const [newColor, setNewColor] = useState({color: '', code: {hex: ''}}); 
 
 
   const editColor = color => {
@@ -35,7 +36,7 @@ const ColorList = ({ colors, updateColors }) => {
     .catch(error => console.log(error))
   };
 
-  const deleteColor = color => {
+  const deleteColor = () => {
     // make a delete request to delete this color
     axiosWithAuth()
     .delete(`/api/colors/${colorToEdit.id}`)
@@ -45,6 +46,18 @@ const ColorList = ({ colors, updateColors }) => {
     })
     .catch(error => console.log(error))
   };
+
+  const addColor = () => {
+    
+    axiosWithAuth()
+    .post(`/api/colors`, newColor)
+    .then( r => {
+      updateColors(colors.concat([newColor]));
+      console.log(r.data)
+    })
+    .catch(error => console.log(error))
+  }
+
 
   return (
     <div className="colors-wrap">
@@ -92,9 +105,45 @@ const ColorList = ({ colors, updateColors }) => {
           <div className="button-row">
             <button type="submit">save</button>
             <button onClick={() => setEditing(false)}>cancel</button>
+            
           </div>
         </form>
       )}
+      <form onSubmit={addColor}>
+        <legend>Add a color</legend>
+        <label>
+          Color name: 
+       
+          <input 
+            type='text'
+            name='name'
+            placeholder='color'
+            onChange={ e => setNewColor({
+              ...newColor, 
+              color : e.target.value
+            })}
+            value={newColor.color}
+          /> 
+        </label>
+
+        <label>
+          Hex code: 
+        <input
+          type="text"
+          name="hex"
+          placeholder="hex code"
+          onChange={e =>  setNewColor({
+            ...newColor, 
+            code: {
+            hex : e.target.value
+            }
+          })}
+          value={newColor.code.hex}
+        /></label>
+        <div className="button-row">
+        <button type="submit">add</button>
+        </div>
+      </form>
       <div className="spacer" />
       {/* stretch - build another form here to add a color */}
     </div>
