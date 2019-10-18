@@ -148,7 +148,13 @@ const ColorList = ({ colors, updateColors }) => {
         </div>
       </form>
       <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
+      <div className="button-row">
+        <button onClick={(e) => {
+          e.preventDefault(); 
+          localStorage.clear();
+          
+          }}>Logout</button>
+      </div>
     </div>
   );
 };
