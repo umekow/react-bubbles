@@ -35,7 +35,9 @@ class Login extends React.Component {
     .catch(error => console.log(error))
   }
   render() {
-    
+    if (localStorage.getItem('token')) {
+      return <Redirect to="/protected" />;
+    }
     return(
     <div className="form-container">
       <form onSubmit={this.onSubmit} className="login">
